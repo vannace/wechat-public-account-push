@@ -525,7 +525,24 @@ export const getBirthdayMessage = (festivals) => {
       let message = null
 
       // 生日相关
-      if (item.type === '生日') {
+
+        if (item.type === '生日') {
+        // 获取周岁
+        let age
+        if (!item.useLunar) {
+          age = selfDayjs().diff(`${item.year}-${item.date}`, 'year')
+        } else {
+          age = selfDayjs().year() - item.year - 1
+        }
+
+        if (item.diffDay === 0) {
+          message = `今天是 「${item.name}」 的${age}岁${item.useLunar ? '阴历' : '公历'}生日哦，祝${item.name}生日快乐！`
+        } else {
+          message = `距离 「${item.name}」 的${age + 1}岁${item.useLunar ? '阴历' : '公历'}生日还有${item.diffDay}天`
+        }
+      }
+      
+      /*if (item.type === '生日') {
         // 获取周岁
         let age
         if (!item.useLunar) {
@@ -539,7 +556,7 @@ export const getBirthdayMessage = (festivals) => {
         } else {
           message = `距离 「${item.name}」 的${age && item.isShowAge ? `${age + 1}岁` : ''}${item.useLunar ? '阴历' : '公历'}生日还有${item.diffDay}天`
         }
-      }
+      }*/
 
       // 节日相关
       if (item.type === '节日') {
